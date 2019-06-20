@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style type='text/css'>
+    div {
+      border: solid 1px;
+    }
+
+    div.box {
+      border-color: red;
+      position: absolute;
+    }
+
+    div.page {
+      width: 500px;
+      height: 300px;
+      position: relative;
+    }
+
+    div.criteria {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      top: 0;
+      left: 0px;
+    }
+
+    div.right {
+      border: none;
+      margin: 50px;
+      display: flex;
+    }
+
+    pre.prettyprint {
+      margin: 0px;
+      margin-left: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class='right'>
+    <div class='page'>
+      <div style='
+        position: static;
+        width: 100px;
+        height: 100px;'>
+        普通の要素
+      </div>
+    </div>
+    <pre class="prettyprint">
+&lt;div class=&#039;box&#039; style=&#039;position: static; width: 100px; height: 100px;&#039;&gt;
+  普通の要素
+&lt;/div&gt;
+    </pre>
+  </div>
+
+  <div class='page'>
+    <pre>
+      position: relative;
+    </pre>
+    <p>
+      と書くと、その要素は「位置指定有効な要素」になる
+    </p>
+    <pre>
+      top: 50px;
+      left: 50px;
+    </pre>
+    <p>
+      「位置指定有効な要素」は位置を指定できる。<br>
+      例えば、上のようにCSSを書くと、「もともと配置されるはずだった位置からtop, leftだけずれた場所」に要素が配置される
+    </p>
+    <div class='criteria'>
+    </div>
+    <div class='box' style='width: 100px; height: 100px; left: 50px; top: 50px;'>
+
+    </div>
+  </div>
+
+  <div class='page'>
+    <p>
+      divのheightを0pxにすると、線っぽくなる。
+    </p>
+    <div class='criteria'>
+    </div>
+    <div class='box' style='width: 100px; height: 0px; left: 50px; top: 50px;'>
+    </div>
+  </div>
+
+  <div class='page'>
+    <p>
+      この線を傾けたい気持ちになる。transform: rotateが使える。
+    </p>
+    <pre>
+      transform: rotate(30deg);
+      // transform: rotate(3.14rad);
+    </pre>
+    <p>
+      しかしこれを書くと、 "要素の中心" を中心として回転してしまう
+    </p>
+    <div class='criteria'>
+    </div>
+    <div class='box' style='width: 100px; height: 0px; left: 50px; top: 50px; transform: rotate(30deg);'>
+    </div>
+  </div>
+
+  <div class='page'>
+    <p>
+      transform-origin: left top;
+    </p>
+    <p>
+      回転の中心を、要素の "left top" に指定できる
+    </p>
+    <div class='criteria'>
+    </div>
+    <div class='box'
+      style='width: 100px; height: 0px; left: 50px; top: 50px; transform: rotate(30deg); transform-origin: left top;'>
+    </div>
+  </div>
+
+  <div class='page'>
+    <p>(x1, y1), (x2, y2)</p>
+    <p>width = √(x1 - x2)^2 + (y1 - y2)^2 (三平方の定理)</p>
+    <p>rad = arctan((y2-y1)/(x2-x1))</p>
+    <pre class="prettyprint">
+function drawLine(main, x1, y1, x2, y2) {
+  let width = Math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+  let rad = Math.atan((y2-y1)/(x2-x1))
+  let div = document.createElement('div')
+  div.style = `
+  position: absolute;
+  height: 0px;
+  transform-origin: top left;
+
+  left: ${x1}px;
+  top: ${y1}px;
+  width: ${width}px;
+  transform: rotate(${rad}rad)
+  `
+  main.appendChild(div)
+}
+    </pre>
+    <div class='criteria'></div>
+    <div class='box'
+      style='width: 100px; height: 0px; left: 50px; top: 50px; transform: rotate(30deg); transform-origin: left top;'>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+</body>
+
+</html>
