@@ -1,0 +1,23 @@
+<div id='drawhere' style='position: relative;'>
+  デモ
+</div>
+
+<script>
+  function drawLine(main, x1, y1, x2, y2) {
+    let width = Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+    let rad = Math.atan((y2 - y1) / (x2 - x1))
+    let div = document.createElement('div')
+    div.style = `
+      position: absolute;
+      height: 0px;
+      transform-origin: top left;
+      border: solid 1px red;
+    
+      left: ${x1}px;
+      top: ${y1}px;
+      width: ${width}px;
+      transform: rotate(${rad}rad)
+      `
+    main.appendChild(div)
+  }
+</script>

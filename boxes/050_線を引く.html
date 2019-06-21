@@ -1,0 +1,18 @@
+<p>
+  (x1, y1)から(x2, y2)に線を引きたい
+</p>
+
+<ol>
+  <li>位置指定可能な要素の中に、新しくdiv要素を作る</li>
+  <li>divをposition: absoluteにする</li>
+  <li>divのheightを0pxにする</li>
+  <li>left, topに(x1, y1)を指定</li>
+  <li>
+    三平方の定理で線の長さを計算し、widthに指定
+    <pre style='font-size: large; margin: 3px; padding: 3px;'>width = √((x2 - x1)**2 + (y2 - y1)**2)</pre>
+  </li>
+  <li>
+    arctanで角度を計算し、transform: rotateに指定
+    <pre style='font-size: large; margin: 3px; padding: 3px;'>radian = arctan((y2 - y1)/(x2 - x1))</pre>
+  </li>
+</ol>

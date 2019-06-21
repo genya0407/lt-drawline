@@ -6,52 +6,555 @@
     div.page {
       border: solid 1px;
       width: 500px;
-      height: 300px;
-      position: relative;
-    }
-
-    div.criteria {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      top: 0;
-      left: 0px;
+      min-height: 300px;
+      padding: 0px;
     }
 
     div.right {
       border: none;
-      margin: 50px;
       display: flex;
+      margin: auto;
+      margin-bottom: 100px;
+      width: 1050px;
     }
 
     pre.prettyprint {
-      width: 100%;
+      font-size: large;
+      width: 500px;
       margin: 0px;
       margin-left: 50px;
+    }
+
+    .prettyprint ol.linenums > li { list-style-type: decimal; }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    div#beforewords {
+      width: 800px;
+      margin: auto;
+      margin-bottom: 100px;
     }
   </style>
 </head>
 
 <body>
+  <h1>Canvasを使わずに線を引く</h1>
+
+  <div id='beforewords'>
+    <p>
+      HTML上でお絵かきしたいときは、<a href='https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API'>Canvas</a>を使うのが普通。
+    </p>
+
+    <p>
+      しかしCanvasの中にはDOM要素が置けない。線とtextareaを組合せたいときとかはCanvasは使えない。
+    </p>
+
+    <p>
+      <b>DOMで線を引く技術</b>が必要。
+    </p>
+
+    <p>
+      道具立て
+      <ul>
+        <li>位置指定可能要素(position: relative, absolute)</li>
+        <li>三平方の定理</li>
+        <li>三角関数</li>
+      </ul>
+    </p>
+  </div>
+
   
+    <h2>普通の要素</h2>
     <div class='right'>
       <div class='page'>
         <div style='
-  position: static;
-  width: 100px;
+  width: 50px;
+  height: 50px;
+  border: solid 1px;'>
+
+  基準
+
+</div>
+
+<div style='
+  width: 200px;
   height: 100px;
   border: solid 1px red;'>
+
   普通の要素
+
 </div>
       </div>
-      <pre class="prettyprint">
+      <pre class="prettyprint linenums:1">
 &lt;div style=&#39;
-  position: static;
-  width: 100px;
+  width: 50px;
+  height: 50px;
+  border: solid 1px;&#39;&gt;
+
+  基準
+
+&lt;/div&gt;
+
+&lt;div style=&#39;
+  width: 200px;
   height: 100px;
   border: solid 1px red;&#39;&gt;
+
   普通の要素
+
 &lt;/div&gt;
+      </pre>
+    </div>
+  
+    <h2>positioin: relative</h2>
+    <div class='right'>
+      <div class='page'>
+        <div style='
+  width: 50px;
+  height: 50px;
+  border: solid 1px;'>
+
+  基準
+
+</div>
+
+<div style='
+  width: 200px;
+  height: 100px;
+  border: solid 1px red;
+  position: relative;'>
+
+  position: relative を追記
+
+</div>
+      </div>
+      <pre class="prettyprint linenums:1">
+&lt;div style=&#39;
+  width: 50px;
+  height: 50px;
+  border: solid 1px;&#39;&gt;
+
+  基準
+
+&lt;/div&gt;
+
+&lt;div style=&#39;
+  width: 200px;
+  height: 100px;
+  border: solid 1px red;
+  position: relative;&#39;&gt;
+
+  position: relative を追記
+
+&lt;/div&gt;
+      </pre>
+    </div>
+  
+    <h2>top,left</h2>
+    <div class='right'>
+      <div class='page'>
+        <div style='
+  width: 50px;
+  height: 50px;
+  border: solid 1px;'>
+
+  基準
+
+</div>
+
+<div style='
+  width: 200px;
+  height: 100px;
+  border: solid 1px red;
+  position: relative;
+  top: 30px;
+  left: 50px;'>
+
+  <pre>
+top: 30px;
+left: 50px;
+  </pre>
+  を追記
+
+</div>
+      </div>
+      <pre class="prettyprint linenums:1">
+&lt;div style=&#39;
+  width: 50px;
+  height: 50px;
+  border: solid 1px;&#39;&gt;
+
+  基準
+
+&lt;/div&gt;
+
+&lt;div style=&#39;
+  width: 200px;
+  height: 100px;
+  border: solid 1px red;
+  position: relative;
+  top: 30px;
+  left: 50px;&#39;&gt;
+
+  &lt;pre&gt;
+top: 30px;
+left: 50px;
+  &lt;/pre&gt;
+  を追記
+
+&lt;/div&gt;
+      </pre>
+    </div>
+  
+    <h2>absolute</h2>
+    <div class='right'>
+      <div class='page'>
+        <p>
+  <ul>
+    <li>
+      position: relativeとすると、その要素は「位置指定可能要素」になる
+      <ul>
+        <li>つまり、topとかleftで位置が指定できるようになる</li>
+        <li>その時の基準は「本来その要素があるべきだった場所」になる</li>
+      </ul>
+    </li>
+    <li>
+      position: absoluteとすると、その要素も「位置指定可能要素」になる
+      <ul>
+        <li>つまり、topとかleftで位置が指定できるようになる</li>
+        <li>その時の基準は「直近の位置指定可能な<b>親要素</b>の位置」になる</li>
+      </ul>
+    </li>
+  </ul>
+</p>
+
+<div style='
+  width: 200px;
+  height: 100px;
+  border: solid 1px red;
+  position: relative;'>
+
+  <div style='border: solid 2px;'>
+    ああああ
+  </div>
+
+  <div style='
+  width: 100px;
+  height: 100px;
+  border: solid 1px green;
+  position: relative; /* here */
+  top: 0px; /* here */
+  '>
+
+  </div>
+</div>
+
+<div style='height: 100px;'>
+
+</div>
+
+<div style='
+  width: 200px;
+  height: 100px;
+  border: solid 1px red;
+  position: relative;'>
+
+  <div style='border: solid 2px;'>
+    ああああ
+  </div>
+
+  <div style='
+  width: 100px;
+  height: 100px;
+  border: solid 1px green;
+  position: absolute; /* here */
+  top: 0px; /* here */
+  '>
+
+  </div>
+</div>
+      </div>
+      <pre class="prettyprint linenums:1">
+&lt;p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      position: relativeとすると、その要素は「位置指定可能要素」になる
+      &lt;ul&gt;
+        &lt;li&gt;つまり、topとかleftで位置が指定できるようになる&lt;/li&gt;
+        &lt;li&gt;その時の基準は「本来その要素があるべきだった場所」になる&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      position: absoluteとすると、その要素も「位置指定可能要素」になる
+      &lt;ul&gt;
+        &lt;li&gt;つまり、topとかleftで位置が指定できるようになる&lt;/li&gt;
+        &lt;li&gt;その時の基準は「直近の位置指定可能な&lt;b&gt;親要素&lt;/b&gt;の位置」になる&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;div style=&#39;
+  width: 200px;
+  height: 100px;
+  border: solid 1px red;
+  position: relative;&#39;&gt;
+
+  &lt;div style=&#39;border: solid 2px;&#39;&gt;
+    ああああ
+  &lt;/div&gt;
+
+  &lt;div style=&#39;
+  width: 100px;
+  height: 100px;
+  border: solid 1px green;
+  position: relative; /* here */
+  top: 0px; /* here */
+  &#39;&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&#39;height: 100px;&#39;&gt;
+
+&lt;/div&gt;
+
+&lt;div style=&#39;
+  width: 200px;
+  height: 100px;
+  border: solid 1px red;
+  position: relative;&#39;&gt;
+
+  &lt;div style=&#39;border: solid 2px;&#39;&gt;
+    ああああ
+  &lt;/div&gt;
+
+  &lt;div style=&#39;
+  width: 100px;
+  height: 100px;
+  border: solid 1px green;
+  position: absolute; /* here */
+  top: 0px; /* here */
+  &#39;&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+      </pre>
+    </div>
+  
+    <h2>height: 0px;</h2>
+    <div class='right'>
+      <div class='page'>
+        <div style='
+  width: 50px;
+  height: 50px;
+  border: solid 1px;'>
+
+  基準
+
+</div>
+
+<div style='
+  width: 200px;
+  height: 0px;
+  border: solid 1px red;
+  position: relative;
+  top: 30px;
+  left: 50px;'>
+</div>
+
+おもむろに height: 0px; とすると、div要素が線になる。
+      </div>
+      <pre class="prettyprint linenums:1">
+&lt;div style=&#39;
+  width: 50px;
+  height: 50px;
+  border: solid 1px;&#39;&gt;
+
+  基準
+
+&lt;/div&gt;
+
+&lt;div style=&#39;
+  width: 200px;
+  height: 0px;
+  border: solid 1px red;
+  position: relative;
+  top: 30px;
+  left: 50px;&#39;&gt;
+&lt;/div&gt;
+
+おもむろに height: 0px; とすると、div要素が線になる。
+      </pre>
+    </div>
+  
+    <h2>rotate</h2>
+    <div class='right'>
+      <div class='page'>
+        <div style='
+  width: 50px;
+  height: 50px;
+  border: solid 1px;'>
+
+  基準
+
+</div>
+
+<div style='
+  width: 200px;
+  height: 0px;
+  border: solid 1px red;
+  position: relative;
+  top: 30px;
+  left: 50px;
+  transform-origin: left top;
+  transform: rotate(45deg);'>
+</div>
+
+<pre>
+rotate-origin: left top;
+transform: rotate(45deg);
+</pre>
+
+と書くと、線を任意の角度だけ回転することができる。
+      </div>
+      <pre class="prettyprint linenums:1">
+&lt;div style=&#39;
+  width: 50px;
+  height: 50px;
+  border: solid 1px;&#39;&gt;
+
+  基準
+
+&lt;/div&gt;
+
+&lt;div style=&#39;
+  width: 200px;
+  height: 0px;
+  border: solid 1px red;
+  position: relative;
+  top: 30px;
+  left: 50px;
+  transform-origin: left top;
+  transform: rotate(45deg);&#39;&gt;
+&lt;/div&gt;
+
+&lt;pre&gt;
+rotate-origin: left top;
+transform: rotate(45deg);
+&lt;/pre&gt;
+
+と書くと、線を任意の角度だけ回転することができる。
+      </pre>
+    </div>
+  
+    <h2>線を引く</h2>
+    <div class='right'>
+      <div class='page'>
+        <p>
+  (x1, y1)から(x2, y2)に線を引きたい
+</p>
+
+<ol>
+  <li>位置指定可能な要素の中に、新しくdiv要素を作る</li>
+  <li>divをposition: absoluteにする</li>
+  <li>divのheightを0pxにする</li>
+  <li>left, topに(x1, y1)を指定</li>
+  <li>
+    三平方の定理で線の長さを計算し、widthに指定
+    <pre style='font-size: large; margin: 3px; padding: 3px;'>width = √((x2 - x1)**2 + (y2 - y1)**2)</pre>
+  </li>
+  <li>
+    arctanで角度を計算し、transform: rotateに指定
+    <pre style='font-size: large; margin: 3px; padding: 3px;'>radian = arctan((y2 - y1)/(x2 - x1))</pre>
+  </li>
+</ol>
+      </div>
+      <pre class="prettyprint linenums:1">
+&lt;p&gt;
+  (x1, y1)から(x2, y2)に線を引きたい
+&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;位置指定可能な要素の中に、新しくdiv要素を作る&lt;/li&gt;
+  &lt;li&gt;divをposition: absoluteにする&lt;/li&gt;
+  &lt;li&gt;divのheightを0pxにする&lt;/li&gt;
+  &lt;li&gt;left, topに(x1, y1)を指定&lt;/li&gt;
+  &lt;li&gt;
+    三平方の定理で線の長さを計算し、widthに指定
+    &lt;pre style=&#39;font-size: large; margin: 3px; padding: 3px;&#39;&gt;width = √((x2 - x1)**2 + (y2 - y1)**2)&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    arctanで角度を計算し、transform: rotateに指定
+    &lt;pre style=&#39;font-size: large; margin: 3px; padding: 3px;&#39;&gt;radian = arctan((y2 - y1)/(x2 - x1))&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+      </pre>
+    </div>
+  
+    <h2>デモ</h2>
+    <div class='right'>
+      <div class='page'>
+        <div id='drawhere' style='position: relative;'>
+  デモ
+</div>
+
+<script>
+  function drawLine(main, x1, y1, x2, y2) {
+    let width = Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+    let rad = Math.atan((y2 - y1) / (x2 - x1))
+    let div = document.createElement('div')
+    div.style = `
+      position: absolute;
+      height: 0px;
+      transform-origin: top left;
+      border: solid 1px red;
+    
+      left: ${x1}px;
+      top: ${y1}px;
+      width: ${width}px;
+      transform: rotate(${rad}rad)
+      `
+    main.appendChild(div)
+  }
+</script>
+      </div>
+      <pre class="prettyprint linenums:1">
+&lt;div id=&#39;drawhere&#39; style=&#39;position: relative;&#39;&gt;
+  デモ
+&lt;/div&gt;
+
+&lt;script&gt;
+  function drawLine(main, x1, y1, x2, y2) {
+    let width = Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+    let rad = Math.atan((y2 - y1) / (x2 - x1))
+    let div = document.createElement(&#39;div&#39;)
+    div.style = `
+      position: absolute;
+      height: 0px;
+      transform-origin: top left;
+      border: solid 1px red;
+    
+      left: ${x1}px;
+      top: ${y1}px;
+      width: ${width}px;
+      transform: rotate(${rad}rad)
+      `
+    main.appendChild(div)
+  }
+&lt;/script&gt;
+      </pre>
+    </div>
+  
+    <h2>emogallery</h2>
+    <div class='right'>
+      <div class='page'>
+        <a target="_blank" href="https://emogallery.netlify.com/">https://emogallery.netlify.com/</a>
+      </div>
+      <pre class="prettyprint linenums:1">
+&lt;a target=&quot;_blank&quot; href=&quot;https://emogallery.netlify.com/&quot;&gt;https://emogallery.netlify.com/&lt;/a&gt;
       </pre>
     </div>
   

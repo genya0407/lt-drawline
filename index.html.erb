@@ -6,40 +6,73 @@
     div.page {
       border: solid 1px;
       width: 500px;
-      height: 300px;
-      position: relative;
-    }
-
-    div.criteria {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      top: 0;
-      left: 0px;
+      min-height: 300px;
+      padding: 0px;
     }
 
     div.right {
       border: none;
-      margin: 50px;
       display: flex;
+      margin: auto;
+      margin-bottom: 100px;
+      width: 1050px;
     }
 
     pre.prettyprint {
-      width: 100%;
+      font-size: large;
+      width: 500px;
       margin: 0px;
       margin-left: 50px;
+    }
+
+    .prettyprint ol.linenums > li { list-style-type: decimal; }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    div#beforewords {
+      width: 800px;
+      margin: auto;
+      margin-bottom: 100px;
     }
   </style>
 </head>
 
 <body>
-  <% @htmls.each do |html| %>
+  <h1>Canvasを使わずに線を引く</h1>
+
+  <div id='beforewords'>
+    <p>
+      HTML上でお絵かきしたいときは、<a href='https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API'>Canvas</a>を使うのが普通。
+    </p>
+
+    <p>
+      しかしCanvasの中にはDOM要素が置けない。線とtextareaを組合せたいときとかはCanvasは使えない。
+    </p>
+
+    <p>
+      <b>DOMで線を引く技術</b>が必要。
+    </p>
+
+    <p>
+      道具立て
+      <ul>
+        <li>位置指定可能要素(position: relative, absolute)</li>
+        <li>三平方の定理</li>
+        <li>三角関数</li>
+      </ul>
+    </p>
+  </div>
+
+  <% @pages.each do |page| %>
+    <h2><%= page.title %></h2>
     <div class='right'>
       <div class='page'>
-        <%= html %>
+        <%= page.html %>
       </div>
-      <pre class="prettyprint">
-<%= ERB::Util.h(html) %>
+      <pre class="prettyprint linenums:1">
+<%= ERB::Util.h(page.html) %>
       </pre>
     </div>
   <% end %>
