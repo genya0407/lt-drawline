@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style type='text/css'>
+    div.page {
+      border: solid 1px;
+      width: 500px;
+      height: 300px;
+      position: relative;
+    }
+
+    div.criteria {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      top: 0;
+      left: 0px;
+    }
+
+    div.right {
+      border: none;
+      margin: 50px;
+      display: flex;
+    }
+
+    pre.prettyprint {
+      width: 100%;
+      margin: 0px;
+      margin-left: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  
+    <div class='right'>
+      <div class='page'>
+        <div style='
+  position: static;
+  width: 100px;
+  height: 100px;
+  border: solid 1px red;'>
+  普通の要素
+</div>
+      </div>
+      <pre class="prettyprint">
+&lt;div style=&#39;
+  position: static;
+  width: 100px;
+  height: 100px;
+  border: solid 1px red;&#39;&gt;
+  普通の要素
+&lt;/div&gt;
+      </pre>
+    </div>
+  
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+</body>
+
+</html>

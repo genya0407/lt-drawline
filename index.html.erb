@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style type='text/css'>
+    div.page {
+      border: solid 1px;
+      width: 500px;
+      height: 300px;
+      position: relative;
+    }
+
+    div.criteria {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      top: 0;
+      left: 0px;
+    }
+
+    div.right {
+      border: none;
+      margin: 50px;
+      display: flex;
+    }
+
+    pre.prettyprint {
+      width: 100%;
+      margin: 0px;
+      margin-left: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <% @htmls.each do |html| %>
+    <div class='right'>
+      <div class='page'>
+        <%= html %>
+      </div>
+      <pre class="prettyprint">
+<%= ERB::Util.h(html) %>
+      </pre>
+    </div>
+  <% end %>
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+</body>
+
+</html>
